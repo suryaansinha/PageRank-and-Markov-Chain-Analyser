@@ -1,0 +1,6 @@
+# page 2 has no outgoing links (dangling); one malformed line below
+0 1
+0 2
+1 2
+3 2
+abc def

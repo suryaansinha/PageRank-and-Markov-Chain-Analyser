@@ -1,0 +1,20 @@
+digraph G { graph [fontname="Helvetica", nodesep=0.4, ranksep=0.4]; node [fontname="Helvetica", fontsize=11, style=filled, fillcolor=white]; edge [fontname="Helvetica", fontsize=10];
+ labelloc=t; label="Fig 3. PageRank by the power method (pagerank())"; fontsize=14;
+ s [label="Start\ninput: graph g (N pages), d, tol, maxIter", shape=oval, fillcolor="#d9ead3"];
+ init [label="r[i] = 1/N for every page\nit = 1", shape=box];
+ dang [label="dangling = sum of r[i]\nover pages with outdeg = 0", shape=box];
+ base [label="newr[j] = (1 - d)/N + d*dangling/N\nfor every page j", shape=box];
+ loop [label="For each page i with outdeg > 0:\nshare = d * r[i] / outdeg[i]\nwalk linked list of i:\nnewr[e->to] += share", shape=box];
+ diff [label="diff = sum |newr[i] - r[i]|\nr = newr", shape=box];
+ c1 [label="diff < tol ?", shape=diamond, fillcolor="#fff2cc"];
+ c2 [label="it = maxIter ?", shape=diamond, fillcolor="#fff2cc"];
+ inc [label="it = it + 1", shape=box];
+ ok [label="Converged:\nreturn r, iterations, time", shape=parallelogram, fillcolor="#d9ead3"];
+ nc [label="Warn: not converged\nreturn current r", shape=parallelogram, fillcolor="#f4cccc"];
+ post [label="runPageRank(): sort pages by rank (descending)\nIf N <= 300: solve Google matrix exactly\nPrint table with absolute error\nSave ranks.csv, pagerank_convergence.csv", shape=box];
+ e [label="End", shape=oval, fillcolor="#d9ead3"];
+ s -> init -> dang -> base -> loop -> diff -> c1;
+ c1 -> ok [label="yes"]; c1 -> c2 [label="no"];
+ c2 -> nc [label="yes"]; c2 -> inc [label="no"]; inc -> dang;
+ ok -> post; nc -> post; post -> e;
+}
